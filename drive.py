@@ -4,6 +4,8 @@ from datetime import datetime
 import os
 import shutil
 
+
+import cv2
 import numpy as np
 import socketio
 import eventlet
@@ -21,6 +23,34 @@ app = Flask(__name__)
 model = None
 prev_image_array = None
 
+
+#def preprocess(image, resize_shape=(32, 32)):
+#	bottom = int(.85 * image.shape[0])
+#	top = int(.3 * image.shape[0])
+#	image = image[top:bottom,:]
+#	image = cv2.resize(image, resize_shape)
+#	#image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+#	
+#	return image
+
+def crop_image(img,top=50,bottom=140):
+    '''
+    Method for crop 
+    '''
+    #Crop image
+    ret_img = img[top:bottom,:,:]
+    return ret_img
+    
+def yuv_image(img,colorspace=cv2.COLOR_RGB2YUV):
+    '''
+    convert to YUV space 
+    (in drive.py, use cv2.COLOR_RGB2YUV)
+    '''
+    # resize per nvidia paper to 66x200x3 
+    res_img = cv2.resize(img,(200, 66), interpolation = cv2.INTER_AREA)
+    # YUV color space is used in nvidia paper
+    yuv_img = cv2.cvtColor(res_img, colorspace)
+    return yuv_img
 
 class SimplePIController:
     def __init__(self, Kp, Ki):
@@ -44,7 +74,11 @@ class SimplePIController:
 
 
 controller = SimplePIController(0.1, 0.002)
-set_speed = 9
+set_speed = 9 #in challenge track vehicle stops at about 3 quarters of lap in the middle of track,no obstruction!!
+#set_speed=12
+#set_speed=15
+#set_speed=20
+#set_speed=30
 controller.set_desired(set_speed)
 
 
@@ -61,6 +95,12 @@ def telemetry(sid, data):
         imgString = data["image"]
         image = Image.open(BytesIO(base64.b64decode(imgString)))
         image_array = np.asarray(image)
+        #print("img array shape2:",image_array.shape)
+        image_array=crop_image(image_array)
+        #image_array=cv2.resize(image_array,(200, 66), interpolation = cv2.INTER_AREA)
+        #image_array=yuv_image(image_array,colorspace=cv2.COLOR_RGB2YUV)
+        #print("img array shape2:",image_array.shape)
+        
         steering_angle = float(model.predict(image_array[None, :, :, :], batch_size=1))
 
         throttle = controller.update(float(speed))

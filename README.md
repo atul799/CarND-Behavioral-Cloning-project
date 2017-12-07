@@ -44,9 +44,9 @@ The data distribution after sampling:
 
 ![image2]: ./examples/sampled_data_histogram.png "Sampled Data Histogram"
 
+** only the data collected by me is uploaded to git
 
-
-#Augmenting data
+# Augmenting data
 **Following augmentation methods are used:**
 1. use all camers images with steering angle correction
 2. pixel intensity manupulation,
@@ -62,7 +62,7 @@ Another set of augmentation examples:
 
 
 
-#Model Architecture and Training Strategy
+# Model Architecture and Training Strategy
 
 I started with a modified Lenet architecture, and switched to nvidia architecture after few tuning steps.
 [![nVidia-End to End Learning for Selfdriving Cars](https://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf)]
@@ -70,7 +70,9 @@ I started with a modified Lenet architecture, and switched to nvidia architectur
 ![image5] ./examples/nVidia_model.png "nvidia model architecture"
 
 
-Keras lambda layer is used to normalize and mean-centre the data.Then 3 5x5 convolution layers followed 2 3x3 convolution layers (2x2 strides), and 3 FC layers and output layer has 1 label. YUV color scheme was tried but drive.py kept crashing during autonomous mode,so, I switched to RGB scheme. relu and ELU activation was tried. ELU performed better so that is the activation function used in the submission model.The Adam optimizer is used with learning rate of 0.0001. learning rate of 0.001 gives faster convergence (training loss saturates at around 6th epoch, however, the model doesn't perform well on challenge track).Mean squared error (mse) loss function is applied at the output. After few trials, batcnormalization layer was added to each conv/FC layer. Dropout was tried as well to avoid overfitting but didn't seem to add much to loss/accuracy, l2 regularization with regularization paremeter as 0.001 is used instead.
+Keras lambda layer is used to normalize and mean-centre the data.Then 3 5x5 convolution layers followed 2 3x3 convolution layers (2x2 strides), and 3 FC layers and output layer has 1 label.
+
+YUV color scheme was tried but drive.py kept crashing during autonomous mode,so, I switched to RGB scheme. relu and ELU activation was tried. ELU performed better so that is the activation function used in the submission model.The Adam optimizer is used with learning rate of 0.0001. learning rate of 0.001 gives faster convergence (training loss saturates at around 6th epoch, however, the model doesn't perform well on challenge track).Mean squared error (mse) loss function is applied at the output. After few trials, batcnormalization layer was added to each conv/FC layer. Dropout was tried as well to avoid overfitting but didn't seem to add much to loss/accuracy, l2 regularization with regularization paremeter as 0.001 is used instead.
 
 The image contains scenery instead of tracks on the top section and cars hood at bottom so the images were cropped from top and bottom before passing to the model.
 
