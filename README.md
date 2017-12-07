@@ -3,7 +3,7 @@
 [![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
 
 #Project Goals
-
+---
 The goals / steps of this project are the following:
 * Use the simulator to collect data of good driving behavior 
 * Design, train and validate a model that predicts a steering angle from image data
@@ -30,26 +30,28 @@ The data collected is a combination of example data provided by udacity and gene
 * Run simulator in autonomous mode with drive.py.
 
 
-# Dataset Analysis
+#Dataset Analysis
+----
 The dataset has a high bias of 0 degree steering angle. Intuitively, since the test track has many long straight lines stretches, the zero angle data makes sense to be used most often in training. During first few iterations of trainign and testing the vehicles kept going straight on some  curves while navigated successfully other turns.I augmented the training data with sharp turns but 1 turn still kept failing.
 Later, I decided on discarding, randomly, samples with low steering angles such that ratio of larger steering angles to smaller steering angle is about 0.5x. This approach reduces training dataset but avoids bias.
 Here is Raw data histogram 
 
 
-![image_ex](./examples/raw_data_histogram.png "Raw Data Histogram")
+
+![picture alt](./examples/raw_data_histogram.png)*Raw Data Histogram with angle correction for left and right cams*
 
 
-The data distribution after sampling:
+**The data distribution after sampling:**
 
 
-![image2](./examples/sampled_data_histogram.png "Sampled Data Histogram")
+![image2](./examples/sampled_data_histogram.png)*Sampled Data Histogram*
 
 
-**only the data collected by me is uploaded to git**
+**#Only the data collected locally is uploaded to git repo**
 
 # Augmenting data
 
-** Following augmentation methods are used: **
+**Following augmentation methods are used:**
 
 1. use all camers images with steering angle correction
 2. pixel intensity manupulation,
@@ -58,20 +60,21 @@ The data distribution after sampling:
 5. drive reverse lap and collect samples for recovery from sharp turns at track boundaries
 
 Here are sample of data augmentations applied (the first image is base image with steering angle drawn in green color):
-![image3](./examples/augmented_data_collage.png "Augmentation1")
+
+![image3](./examples/augmented_data_collage.png)* Augmentation1 *
 
 Another set of augmentation examples:
-![image4](./examples/augmented_data_collage2.png "Augmentation2")
+![image4](./examples/augmented_data_collage2.png)* Augmentation2 *
 
 
 
-# Model Architecture and Training Strategy
-
+#Model Architecture and Training Strategy
+---
 The first experiments were with modified Lenet architecture, and switched to nVidia architecture after few tuning steps since vehicles kept going over track edges.
 
 [nVidia-End to End Learning for Selfdriving Cars](https://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf)
 
-![image5](./examples/nVidia_model.png "nvidia model architecture")
+![image5](./examples/nVidia_model.png)*nVidia model architecture*
 
 
 Keras lambda layer is used to normalize and mean-center the data.Then 3 5x5 convolution layers followed by 2 3x3 convolution layers, and 3 FC layers as hidden layers is implemented and output layer has 1 label.
@@ -91,38 +94,42 @@ After a few trials, the dataset was calibrated to represent evenly different bin
 The training of the model was done on aws gpu instance and image in drive.py was adjusted to match input layer of the model.
 
 
-# Implementation of generators
+#Implementation of generators
+---
 While i was able to work with lenet without generators, once i started to try nvidia arch, model.fit proved difficult to handle in terms of memory requirement. Python generators along with keras fit_generator was implemented.
 dataset was split into training and validation datsets, then shuffled and a batch size of 128 was used to generate batches of data. Each batch when passed to training model has random application of pixel intensity,horizontal translattion as well as image flip during batch generation.The above transforms are not applied to validation dataset.
 
-# Making sense of whats going on under the Hood
+#Making sense of what's going on under the Hood
+---
 I was curious about the features that network is learning so implemented a visualization scheme based on keras function (borrowed from guthub)[Keras resources](https://github.com/fchollet/keras-resources) for the convolution layers.
 Here is a plot of the features learned by first and second layer in the model.
 
 **Image of features in conv Layer 1**
 
-![image6](./examples/layer1_conv_collage.png "Layer 1 conv")
+![image6](./examples/layer1_conv_collage.png)*Layer 1 conv*
 
 **Image of features in conv Layer 2**
 
-![image7](./examples/layer2_conv_collage.png "Layer 2 conv")
+![image7](./examples/layer2_conv_collage.png)*Layer 2 conv*
 
 
 
 #Submission
+---
 **The following files are uploaded to this repository:**
 
 1. model.py   --> implementation of the model
 2. model.h5   --> trained model
 3. drive.py   --> backend script for loading and controlling (predicting) drive behavior in simulator
-4. track1.mp4  --> autonomus mode driving on track1 using model.h5 model
+4. track1.mp4  --> autonomous mode driving on track1 using model.h5 model
 
 
 
-# Result Discussion and Additional Thoughts
+# Result discussion and Additional Thoughts
+---
 The vehicle is able to successfully run the test track autonomously. It goes about 2/3rd on the mountain track, however, at one of the uphill/downhill turns vehicles stops in the middle of the track.
 This was a great project and exercised most of the concepts learned during the course about Neural Nets.
-I wasn't able to implement couple fo interesting ideas such as resizing images (it would reduce training time), nvidia paper uses image size of 66x200 and YUV scale and shadow augmentation as mentioned in [this webpage](https://chatbotslife.com/learning-human-driving-behavior-using-nvidias-neural-network-model-and-image-augmentation-80399360efee)
+I wasn't able to implement couple fo interesting ideas such as resizing images (it would reduce training time), nVidia paper uses image size of 66x200 and YUV scale and shadow augmentation as mentioned in [this webpage](https://chatbotslife.com/learning-human-driving-behavior-using-nvidias-neural-network-model-and-image-augmentation-80399360efee)
 There are also other network architectures such as comma.ai that would be fun to try.
 Data analysis was the most important factor in building and training the network.
 
