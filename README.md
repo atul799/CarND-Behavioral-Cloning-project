@@ -44,10 +44,12 @@ The data distribution after sampling:
 
 ![image2]: ./examples/sampled_data_histogram.png "Sampled Data Histogram"
 
-** only the data collected by me is uploaded to git
+** only the data collected by me is uploaded to git **
 
 # Augmenting data
-**Following augmentation methods are used:**
+
+** Following augmentation methods are used: **
+
 1. use all camers images with steering angle correction
 2. pixel intensity manupulation,
 3. affine translation i.e. shift image horizontal few pixels and apply a correction factor to steering angle
@@ -58,7 +60,7 @@ Here are sample of data augmentations applied (the first image is base image wit
 ![image3] ./examples/augmented_data_collage.png "Augmentation1"
 
 Another set of augmentation examples:
-![image3] ./examples/augmented_data_collage2.png "Augmentation2"
+![image4] ./examples/augmented_data_collage2.png "Augmentation2"
 
 
 
@@ -96,15 +98,18 @@ I was curious about the features that network is learning so implemented a visua
 Here is a plot of the features learned by first and secod layer in the model.
 
 ** image of features in conv Layer 1**
+
 ![image6] ./examples/layer1_conv_collage.png "Layer 1 conv"
 
 ** image of features in conv Layer 2**
+
 ![image7] ./examples/layer2_conv_collage.png "Layer 2 conv"
 
 
 
 # Submissions
 ** The following files are uploaded to this repository: **
+
 1. model.py   --> implementation of the model
 2. model.h5   --> trained model
 3. drive.py   --> backend script for loading and controlling (predicting) drive behavior in simulator
