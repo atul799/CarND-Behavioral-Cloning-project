@@ -1,4 +1,5 @@
-# Udacity:Self-Driving Car NanoDegree-Behaviorial Cloning Project
+
+#Udacity:Self-Driving Car NanoDegree-Behaviorial Cloning Project
 
 [![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
 
@@ -49,7 +50,7 @@ Here is Raw data histogram
 
 **#Only the data collected locally is uploaded to git repo**
 
-# Augmenting data
+#Augmenting data
 
 **Following augmentation methods are used:**
 
@@ -125,7 +126,7 @@ Here is a plot of the features learned by first and second layer in the model.
 
 
 
-# Result discussion and Additional Thoughts
+#Result discussion and Additional Thoughts
 ---
 The vehicle is able to successfully run the test track autonomously. It goes about 2/3rd on the mountain track, however, at one of the uphill/downhill turns vehicles stops in the middle of the track.
 This was a great project and exercised most of the concepts learned during the course about Neural Nets.
