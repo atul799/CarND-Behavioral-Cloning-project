@@ -62,10 +62,10 @@ Here is Raw data histogram
 
 Here are sample of data augmentations applied (the first image is base image with steering angle drawn in green color):
 
-![image3](./examples/augmented_data_collage.png)* Augmentation1 *
+![image3](./examples/augmented_data_collage.png)*Augmentation ex1*
 
 Another set of augmentation examples:
-![image4](./examples/augmented_data_collage2.png)* Augmentation2 *
+![image4](./examples/augmented_data_collage2.png)*Augmentation ex2*
 
 
 
@@ -110,7 +110,6 @@ Here is a plot of the features learned by first and second layer in the model.
 ![image6](./examples/layer1_conv_collage.png)*Layer 1 conv*
 
 **Image of features in conv Layer 2**
-
 ![image7](./examples/layer2_conv_collage.png)*Layer 2 conv*
 
 
